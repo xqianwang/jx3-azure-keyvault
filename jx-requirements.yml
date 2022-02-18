@@ -1,12 +1,47 @@
 apiVersion: core.jenkins-x.io/v4beta1
 kind: Requirements
 spec:
+  autoUpdate:
+    enabled: false
+    schedule: ""
   cluster:
+    azure:
+      dns:
+        resourceGroup: jeninsxdns
+        subscriptionId: c63f111b-688e-433a-a7bc-ab5740cef199
+        tenantId: 2b916926-51b6-4a95-8003-bd3525f83077
+      secretStorage:
+        keyVaultName: jenkinsxazkv
+      storage:
+        storageAccountName: jxjenkinsx
+    chartRepository: http://jenkins-x-chartmuseum.jx.svc.cluster.local:8080
+    environmentGitOwner: xqianwang
+    gitKind: github
+    gitName: github
+    gitServer: https://github.com
     provider: aks
+    registry: zafindevregistry.azurecr.io
   environments:
   - key: dev
+    owner: xqianwang
+    repository: jx3-azure-keyvault
   - key: staging
-  - key: production  
+  - key: production
   ingress:
-    tls: {}
+    domain: dev.zafin-jenkins-x.com
+    externalDNS: true
+    kind: ingress
+    namespaceSubDomain: -jx.
+    tls:
+      email: ""
+      enabled: false
+      production: false
+  pipelineUser:
+    username: xqianwang
+  repository: nexus
   secretStorage: azurekeyvault
+  storage:
+  - name: logs
+    url: azblob://logs
+  vault: {}
+  webhook: lighthouse
